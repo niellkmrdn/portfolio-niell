@@ -168,18 +168,20 @@
         
         <!-- Song 1 -->
         <div class="card" id="songCard">
+            <img src="single1.jpg" alt="Behind The Façade">
             <h3>Behind The Façade</h3>
             <p>Exploring the hidden emotions behind the mask we show the world.</p>
-            <iframe data-src="https://www.youtube.com/embed/ir1C5xqD5vw?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <audio src="Niell - Behind The Façade.mp3" id="audio1"></audio>
         </div>
 
         <br><br>
 
 
         <div class="card songCard">
+            <img src="single2.jpg" alt="In Their Eyes">
             <h3>In Their Eyes</h3>
             <p>A journey from self-doubt to self-acceptance.</p>
-            <iframe data-src="https://www.youtube.com/embed/ll2kuAqfwl4?autoplay=1&mute=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            <audio src="Niell - In Their Eyes.mp3" id="audio2"></audio>
         </div>
 
     </section>
@@ -189,25 +191,34 @@
     </footer>
 
     <script>
-        const observer = new IntersectionObserver(entries => {
+        const songs = document.querySelectorAll('.song');
+        let currentAudio = null;
+
+        const options = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5
+        }
+
+        const callback = (entries, observer) => {
             entries.forEach(entry => {
-                const iframe = entry.target.querySelector('iframe');
-                if(entry.isIntersecting){
-                    if(!iframe.src){
-                        iframe.src = iframe.dataset.src;
+                const audio = entry.target.querySelector('audio');
+                if (entry.isIntersecting) {
+                    if (currentAudio && currentAudio !== audio) {
+                        currentAudio.pause();
+                        currentAudio.currentTime = 0;
                     }
+                    audio.play();
+                    currentAudio = audio;
                 } else {
-                    if(iframe.src){
-                        iframe.src = '';
-                    }
+                    audio.pause();
+                    audio.currentTime = 0;
                 }
             });
-        }, { threshold:0.6 });
+        }
 
-        document.querySelectorAll('.songCard').forEach(card => {
-            observer.observe(card);
-        });
+        const observer = new IntersectionObserver(callback, options);
+        songs.forEach(song => observer.observe(song));
     </script>
-
 </body>
 </html>
