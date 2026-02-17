@@ -165,7 +165,6 @@
 
     <div class="hero">
         <div class="hero-content">
-            <img src="niell.jpg" alt="My Profile Picture">
             <h1>NIELL</h1>
             <p>Not for their eyes, but for my own path.</p>
         </div>
@@ -204,15 +203,15 @@
             <img src="single1.jpg" alt="Behind The Façade Cover" class="song-cover">
             <h3>Behind The Façade</h3>
             <p>Exploring the hidden emotions behind the mask we show the world.</p>
-            <audio src="Behind-The-Façade.mp3"></audio>
+            <audio src="behind-the-facade.mp3"></audio>
         </div>
 
         <!-- SONG 2 -->
         <div class="card songCard">
-            <img src="single2.jpg" alt="In Their Eyes">
+            <img src="single2.jpg" alt="In Their Eyes" class="song-cover">
             <h3>In Their Eyes</h3>
             <p>A journey from self-doubt to self-acceptance.</p>
-            <audio src="In-Their-Eyes.mp3"></audio>
+            <audio src="in-their-eyes.mp3"></audio>
         </div>
 
     </section>
@@ -222,7 +221,9 @@
     </footer>
 
     <script>
-        const cards = document.querySelectorAll('.songCard');
+        document.addEventListener("click", () => {
+            document.querySelectorAll("audio").forEach(a => a.play().then(() => a.pause()));
+        });
 
         const observer = new IntersectionObserver(entries => {
             entries.forEach(entry => {
@@ -232,14 +233,16 @@
                         a.pause();
                         a.currentTime = 0;
                     });
-                    audio.src = audio.dataset.audio;
                     audio.play();
                 }
             });
         }, { threshold:0.6 });
 
-        cards.forEach(card => observer.observe(card));
+        document.querySelectorAll(".songCard").forEach(card => {
+            observer.observe(card);
+        });
     </script>
 
 </body>
 </html>
+
